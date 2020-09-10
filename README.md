@@ -1,10 +1,24 @@
 # mysql2mongodb
 
-Instructions
+### Instructions
 
-clone this repo
+### Pre-requests
+1. MySQL Client (to upload the `sample.sql` file)
+2. Mongodb Client to verify the inserted data through shell
+3. docker
+4. docker-compose
 
-Install mysql client and mongodb client for shell access on the host machine
+On ubuntu run the following to get the clients installed
+
+```
+sudo apt-get install mongodb-clients -y
+sudo apt-get install mysql-client -y
+
+```
+
+To install `docker` and `docker-compose` find the relevant documents on google
+
+clone this repo and run the below on the shell
 
 ```
 cd mysql2mongodb
@@ -39,6 +53,7 @@ You can also see the logs by issuing the following
 
 `docker ps` and copy the container id
 `docker logs <container_id>`
+
 Now you should see all the flask logs
 
 Finally shutdown all the dockers by issuing `docker-compose down`
