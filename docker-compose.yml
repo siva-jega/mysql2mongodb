@@ -1,0 +1,51 @@
+version: '3.5'
+networks:
+  proxynet:
+    name: mysql2mongodb
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    tty: false
+    volumes:
+      - /opt/mongo_data:/data/db
+    networks: 
+      - proxynet
+
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    tty: false
+    volumes:
+      - /opt/mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_USER: 'siva'
+      MYSQL_PASS: 'password'
+    networks:
+      - proxynet
+
+  flask_app:
+    container_name: flask_app
+    image: flask_app:1.0
+    build: docker-files/.
+    ports:
+      - "5000:5000"
+    tty: true
+    volumes:
+        - ./app:/app
+    environment:
+      FLASK_APP: main.py
+      FLASK_ENV: development
+    entrypoint: flask run --host 0.0.00 --port 5000
+    networks: 
+      - proxynet
+    links:
+      - "mysql"
+      - "mongo"
+
